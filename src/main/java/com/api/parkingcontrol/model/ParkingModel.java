@@ -1,63 +1,117 @@
 package com.api.parkingcontrol.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.Objects;
+import java.util.UUID;
 
 @Entity
 @Table(name = "TB-parking-control")
 public class ParkingModel implements Serializable {
-    private static final long serialVersionUID = 1L;
+   private static final long serialVersionUID = 1L;
+
     @Id
-    private Integer id;
-    private String car;
-    private String name;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private UUID id;
+    @Column(nullable = false, unique = true, length = 10)
+    private String parkingSpotNumber;
+    @Column(nullable = false, unique = true, length = 7)
+    private String licensePlateCar;
+    @Column(nullable = false, length = 70)
+    private String brandCar;
+    @Column(nullable = false, length = 70)
+    private String modelCar;
+    @Column(nullable = false, length = 70)
+    private String colorCar;
+    @Column(nullable = false)
+    private LocalDateTime dateRegistration;
+    @Column(nullable = false, length = 130)
+    private String responsibleName;
+    @Column(nullable = false, length = 30)
+    private String apartment;
+    @Column(nullable = false, length = 30)
+    private String block;
 
-    public ParkingModel(){
-
-    }
-    public ParkingModel(Integer id, String car, String name){
-        this.id = id;
-        this.car = car;
-        this.name = name;
-    }
-
-    public Integer getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 
-    public String getCar() {
-        return car;
+    public String getParkingSpotNumber() {
+        return parkingSpotNumber;
     }
 
-    public void setCar(String car) {
-        this.car = car;
+    public void setParkingSpotNumber(String parkingSpotNumber) {
+        this.parkingSpotNumber = parkingSpotNumber;
     }
 
-    public String getName() {
-        return name;
+    public String getLicensePlateCar() {
+        return licensePlateCar;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setLicensePlateCar(String licensePlateCar) {
+        this.licensePlateCar = licensePlateCar;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof ParkingModel that)) return false;
-        return Objects.equals(getId(), that.getId()) && Objects.equals(getCar(), that.getCar()) && Objects.equals(getName(), that.getName());
+    public String getBrandCar() {
+        return brandCar;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(getId(), getCar(), getName());
+    public void setBrandCar(String brandCar) {
+        this.brandCar = brandCar;
+    }
+
+    public String getModelCar() {
+        return modelCar;
+    }
+
+    public void setModelCar(String modelCar) {
+        this.modelCar = modelCar;
+    }
+
+    public String getColorCar() {
+        return colorCar;
+    }
+
+    public void setColorCar(String colorCar) {
+        this.colorCar = colorCar;
+    }
+
+    public LocalDateTime getDateRegistration() {
+        return dateRegistration;
+    }
+
+    public void setDateRegistration(LocalDateTime dateRegistration) {
+        this.dateRegistration = dateRegistration;
+    }
+
+    public String getResponsibleName() {
+        return responsibleName;
+    }
+
+    public void setResponsibleName(String responsibleName) {
+        this.responsibleName = responsibleName;
+    }
+
+    public String getApartment() {
+        return apartment;
+    }
+
+    public void setApartment(String apartment) {
+        this.apartment = apartment;
+    }
+
+    public String getBlock() {
+        return block;
+    }
+
+    public void setBlock(String block) {
+        this.block = block;
     }
 }
