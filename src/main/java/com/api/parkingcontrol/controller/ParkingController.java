@@ -2,6 +2,7 @@ package com.api.parkingcontrol.controller;
 
 import com.api.parkingcontrol.services.ParkingServices;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -14,5 +15,6 @@ public class ParkingController{
         this.services = services;
     }
 
+    @RequestMapping(method = RequestMethod.POST )
 
 }
