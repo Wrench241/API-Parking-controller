@@ -6,6 +6,7 @@ import com.api.parkingcontrol.services.ParkingServices;
 import jakarta.validation.Valid;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -48,8 +49,22 @@ public class ParkingController {
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<ParkingModel> findById(@PathVariable(value = "id") UUID id){
-        return ResponseEntity.status(HttpStatus.OK).body(services.findById(id));
+    public ResponseEntity<Object> findById(@PathVariable(value = "id") UUID id){
+        Optional<ParkingModel> parkingModelOptional = services.findById(id);
+        if (!parkingModelOptional.isPresent()){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("ID not found 404");
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(parkingModelOptional.get());
+    }
+
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<Object> delete(@PathVariable(value = "id") UUID id){
+        Optional<ParkingModel> parkingModelOptional = services.findById(id);
+        if(!parkingModelOptional.isPresent()){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("id not found 404");
+        }
+        services.delete(parkingModelOptional.get());
+        return ResponseEntity.status(HttpStatus.OK).body("id deleted OK");
     }
 
 }

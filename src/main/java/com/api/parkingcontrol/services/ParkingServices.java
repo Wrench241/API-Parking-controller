@@ -1,9 +1,11 @@
 package com.api.parkingcontrol.services;
 
 import com.api.parkingcontrol.dto.ParkingDTO;
+import com.api.parkingcontrol.exception.ObjectNotFoundException;
 import com.api.parkingcontrol.model.ParkingModel;
 import com.api.parkingcontrol.repository.ParkingRepository;
 import jakarta.transaction.Transactional;
+import org.hibernate.ObjectDeletedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,9 +25,8 @@ public class ParkingServices {
         return repo.save(obj);
     }
 
-    public ParkingModel findById(UUID id){
-        return repo.findById(id).orElseThrow(()
-        -> new RuntimeException("deu ruim"));
+    public Optional<ParkingModel> findById(UUID id){
+        return repo.findById(id);
     }
 
     public boolean existsByLicensePlateCar(String licensePlateCar) {
@@ -40,5 +41,9 @@ public class ParkingServices {
 
     public List<ParkingModel> findAll() {
         return repo.findAll();
+    }
+    @Transactional
+    public void delete(ParkingModel id){
+         repo.delete(id);
     }
 }
