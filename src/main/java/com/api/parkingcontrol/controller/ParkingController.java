@@ -4,6 +4,8 @@ import com.api.parkingcontrol.dto.ParkingDTO;
 import com.api.parkingcontrol.model.ParkingModel;
 import com.api.parkingcontrol.services.ParkingServices;
 import jakarta.validation.Valid;
+import org.apache.coyote.Response;
+import org.hibernate.validator.constraints.ParameterScriptAssert;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -66,5 +68,28 @@ public class ParkingController {
         services.delete(parkingModelOptional.get());
         return ResponseEntity.status(HttpStatus.OK).body("id deleted OK");
     }
+
+    @PutMapping(value = "/{id}")
+    public ResponseEntity<Object> putUpdate(@PathVariable(value = "id")UUID id,
+                                            @RequestBody @Valid ParkingDTO dto){
+        Optional<ParkingModel> parkingModelOptional = services.findById(id);
+        if(!parkingModelOptional.isPresent()){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("id not found 404");
+        }
+        var parkingModel = parkingModelOptional.get();
+
+        parkingModel.setParkingSpotNumber(dto.getParkingSpotNumber());
+        parkingModel.setModelCar(dto.getModelCar());
+        parkingModel.getLicensePlateCar(dto.getLicensePlateCar());
+        parkingModel.setApartment(dto.getApartment());
+        parkingModel.setBlock(dto.getBlock());
+        parkingModel.setBrandCar(dto.getBrandCar());
+        parkingModel.setColorCar(dto.getColorCar());
+        parkingModel.setResponsibleName(dto.getResponsibleName());
+
+        BeanUtils.copyProperties(dto, parkingModel);
+        return ResponseEntity.status(HttpStatus.OK).body(services.save(parkingModel));
+    }
+
 
 }

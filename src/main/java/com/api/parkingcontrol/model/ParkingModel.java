@@ -4,8 +4,6 @@ import jakarta.persistence.*;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.Date;
-import java.util.Objects;
 import java.util.UUID;
 
 @Entity
@@ -51,8 +49,8 @@ public class ParkingModel implements Serializable {
         this.parkingSpotNumber = parkingSpotNumber;
     }
 
-    public String getLicensePlateCar() {
-        return licensePlateCar;
+    public String getLicensePlateCar(String licensePlateCar) {
+        return this.licensePlateCar;
     }
 
     public void setLicensePlateCar(String licensePlateCar) {
