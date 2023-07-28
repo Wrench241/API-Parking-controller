@@ -76,18 +76,10 @@ public class ParkingController {
         if(!parkingModelOptional.isPresent()){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("id not found 404");
         }
-        var parkingModel = parkingModelOptional.get();
-
-        parkingModel.setParkingSpotNumber(dto.getParkingSpotNumber());
-        parkingModel.setModelCar(dto.getModelCar());
-        parkingModel.getLicensePlateCar(dto.getLicensePlateCar());
-        parkingModel.setApartment(dto.getApartment());
-        parkingModel.setBlock(dto.getBlock());
-        parkingModel.setBrandCar(dto.getBrandCar());
-        parkingModel.setColorCar(dto.getColorCar());
-        parkingModel.setResponsibleName(dto.getResponsibleName());
-
+        var parkingModel = new ParkingModel();
         BeanUtils.copyProperties(dto, parkingModel);
+        parkingModel.setId(parkingModelOptional.get().getId());
+        parkingModel.setDateRegistration(parkingModelOptional.get().getDateRegistration());
         return ResponseEntity.status(HttpStatus.OK).body(services.save(parkingModel));
     }
 
